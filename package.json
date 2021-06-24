@@ -1,0 +1,17 @@
+{
+  "name": "AppRunner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "create": "aws ecr create-repository --repository-name app-runner-example --image-scanning-configuration scanOnPush=true --profile <profile> --region us-east-1",
+    "build": "docker build -t app-runner:1 .",
+    "start": "docker run -p 80:80 app-runner:1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
