@@ -9,4 +9,5 @@ RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
 WORKDIR /opt/app
 COPY . .
 
+EXPOSE 8080
 ENTRYPOINT node index.js
