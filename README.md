@@ -13,6 +13,12 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 
 ```
 
+## Build Docker image
+
+```sh
+docker build -t app-runner:1 .
+```
+
 ## Tag docker image
 
 ```sh
