@@ -1,12 +1,12 @@
-
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata: 
+Description: 'AWS CloudFormation Sample Template AppRunnerService: This template demonstrates
+  the creation of a App Runner Service from existing ECR Repository.  **WARNING** This template creates an AWS App Runner Service. You will be billed for the AWS resources used if you create a stack from
+  this template.'
 
 Parameters:
-  ServiceName:
-    Description: The name of the stack
-    Type: String
-    Default: "apprunner-example"
   ECRURL:
-    Description: ECR Url
+    Description: URL of the ECR Repository.
     Type: String
     Default: "123456789012.dkr.ecr.us-east-1.amazonaws.com/ecr-name:latest"
 
@@ -44,7 +44,7 @@ Resources:
     Properties:
       ServiceName: !Join
             - ''
-            - - !Ref "ServiceName"
+            - - !Ref "AWS::StackName"
               - '-service'
       SourceConfiguration:
         AuthenticationConfiguration:
@@ -55,6 +55,15 @@ Resources:
           ImageIdentifier: !Ref ECRURL
           ImageConfiguration:
             Port: 8080
+      # Default Configurations
       # InstanceConfiguration:
-      #   Cpu: 1vCPU
-      #   Memory: 1024
+      #   Cpu: 1024
+      #   Memory: 2GB
+
+Outputs:
+  AppRunner:
+    Description: URL of the deployed App Runner Service
+    Value: !Join
+            - ''
+            - - "https://"
+              - !GetAtt AppRunner.ServiceUrl
