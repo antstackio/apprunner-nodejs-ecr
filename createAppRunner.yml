@@ -1,0 +1,60 @@
+
+
+Parameters:
+  ServiceName:
+    Description: The name of the stack
+    Type: String
+    Default: "apprunner-example"
+  ECRURL:
+    Description: ECR Url
+    Type: String
+    Default: "123456789012.dkr.ecr.us-east-1.amazonaws.com/ecr-name:latest"
+
+Resources:
+  AppRunnerRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - build.apprunner.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - "ecr:GetDownloadUrlForLayer"
+                  - "ecr:BatchGetImage"
+                  - "ecr:DescribeImages"
+                  - "ecr:GetAuthorizationToken"
+                  - "ecr:BatchCheckLayerAvailability"
+                Resource: '*'
+
+  AppRunner:
+    Type: AWS::AppRunner::Service
+    DependsOn: AppRunnerRole
+    Properties:
+      ServiceName: !Join
+            - ''
+            - - !Ref "ServiceName"
+              - '-service'
+      SourceConfiguration:
+        AuthenticationConfiguration:
+          AccessRoleArn: !GetAtt AppRunnerRole.Arn
+        AutoDeploymentsEnabled: true
+        ImageRepository:
+          ImageRepositoryType: ECR
+          ImageIdentifier: !Ref ECRURL
+          ImageConfiguration:
+            Port: 8080
+      # InstanceConfiguration:
+      #   Cpu: 1vCPU
+      #   Memory: 1024
