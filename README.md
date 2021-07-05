@@ -22,14 +22,14 @@ docker build -t app-runner:1 .
 ## Tag docker image
 
 ```sh
-docker tag app-runner:1 <AWS-ACCOUNT-ID>.dkr.ecr.<region>.amazonaws.com/app-runner-example
+docker tag app-runner:1 <AWS-ACCOUNT-ID>.dkr.ecr.<region>.amazonaws.com/app-runner-example:latest
 
 ```
 
 ## Push to ECR
 
 ```sh
-docker push <AWS-ACCOUNT-ID>.dkr.ecr.<region>.amazonaws.com/app-runner-example
+docker push <AWS-ACCOUNT-ID>.dkr.ecr.<region>.amazonaws.com/app-runner-example:latest
 
 ```
 
